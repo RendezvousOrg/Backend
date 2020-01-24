@@ -12,7 +12,9 @@ from .serializers import PlanSerializer, RegisterSerializer
 
 class PlanView(APIView):
     def post(self, request):
-        serializer = PlanSerializer(data=request.data)
+        data = request.data.copy()
+        data.update({"creator": request.user.id})
+        serializer = PlanSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
