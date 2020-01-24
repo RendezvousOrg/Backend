@@ -11,6 +11,11 @@ from rest_framework import status
 from .serializers import PlanSerializer, RegisterSerializer
 
 class PlanView(APIView):
+    def get(self, request):
+        plans = request.user.plans
+        serializer = PlanSerializer(plans, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def post(self, request):
         data = request.data.copy()
         data.update({"creator": request.user.id})
