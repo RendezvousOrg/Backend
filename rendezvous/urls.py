@@ -23,6 +23,7 @@ from core import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('plans/', views.PlanView.as_view()),
+    path('plans/<int:plan_id>/', views.PlanView.as_view()),
 
     # Authentication
     path('login/', TokenObtainPairView.as_view(), name='login'),

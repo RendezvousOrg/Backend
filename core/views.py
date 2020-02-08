@@ -9,9 +9,16 @@ from rest_framework import status
 
 # App imports
 from .serializers import PlanSerializer, RegisterSerializer
+from .models import Plan
+
 
 class PlanView(APIView):
-    def get(self, request):
+    def get(self, request, plan_id=None):
+        if plan_id:
+            plan = Plan.objects.get(id=plan_id)
+            serializer = PlanSerializer(plan)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
         plans = request.user.plans
         serializer = PlanSerializer(plans, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
